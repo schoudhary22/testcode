@@ -1,0 +1,12 @@
+$subname = (Get-AzSubscription).Name
+
+foreach ($sub in $subname) {
+    Set-AzContext -SubscriptionName $sub
+    $lbs = Get-AzLoadBalancer
+    foreach ($lb in $lbs) {
+        if($lb.BackendAddressPools.BackendIpConfigurations -eq $null){
+            $lb | Select-Object -Property Name,SubscriptionName
+        }
+    }
+
+}
